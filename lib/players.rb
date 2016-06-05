@@ -15,12 +15,8 @@ class Players
     players.each do |player|
       if player.name == name
         return false
-      else
-        return true
       end
     end
+    return true
   end
-end
-
-class NameInUseError < StandardError
 end

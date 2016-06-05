@@ -5,7 +5,5 @@ require_relative "board"
 require_relative "game"
 
 require 'pry'
-board = Board.new
-game = Game.new(board)
-game.assign_players
-game.turns
+
+Game.new

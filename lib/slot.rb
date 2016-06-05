@@ -1,12 +1,12 @@
 class Slot
   attr_reader :symbol
 
-  def initialize (symbol="o")
-    @symbol = symbol
+  def initialize
+    @symbol = "o"
   end
 
   def empty?
-    symbol == "o"
+    @symbol == "o"
   end
 
   def drop_token(color)
