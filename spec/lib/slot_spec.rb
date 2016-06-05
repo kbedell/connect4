@@ -3,7 +3,6 @@ require_relative "../spec_helper"
 RSpec.describe Slot do
 
   let(:slot) { Slot.new }
-  let(:slot_x) { Slot.new("x") }
 
   describe "#initialize" do
     it "creates an empty slot" do
@@ -27,7 +26,8 @@ RSpec.describe Slot do
     end
 
     it "checks to confirm that slot is not empty" do
-      expect(slot_x.empty?).to eq (false)
+      slot.drop_token("r")
+      expect(slot.empty?).to eq (false)
     end
   end
 

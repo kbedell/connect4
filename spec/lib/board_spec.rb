@@ -5,29 +5,32 @@ RSpec.describe Board do
   let (:player) { Players.new }
 
   describe "#initialize" do
-    it "creates an array made of 6 rows" do
-      expect(board.board.count).to eq (6)
+    it "expect a board to be a board object" do
+      expect(board).to be_kind_of(Board)
     end
 
-    it "returns an array with 7 items" do
-      slot_count = 0
-      board.board.each do |row|
-        slot_count = 0
-        row.each do |slot|
-          slot_count += 1
-        end
-      end
-      expect(slot_count).to eq (7)
+    it "expect a board to be a matrix" do
+      expect(board.board).to be_kind_of(Matrix)
+    end
+
+    it "expect a board to be a matrix with 7 columns" do
+      expect(board.board.column_count).to eq (7)
+    end
+
+    it "expect a board to be a matrix with 6 rows" do
+      expect(board.board.row_count).to eq (6)
+    end
+
+    it "expect a board to be a matrix filled with slot items" do
+      expect(board.board.element(0,0)).to be_kind_of(Slot)
     end
   end
 
   describe "#full?" do
     it "returns true if the board is full" do
       board_full = Board.new
-        board_full.board.each do |row|
-          row.each do |slot|
-            slot.drop_token("y")
-          end
+        board_full.board.each do |slot|
+          slot.drop_token("y")
         end
       expect(board_full.full?).to eq (true)
     end
@@ -40,17 +43,6 @@ RSpec.describe Board do
   describe "#make_move" do
     it "should allow a player to select a column, and fill the column" do
       expect(board.make_move(2, "r")).to eq (true)
-    end
-
-    it "should prompt a player to pick a new column if that column is full" do
-      board_full = Board.new
-        board_full.board.each do |row|
-          row.each do |slot|
-            slot.drop_token("y")
-          end
-        end
-
-      expect{board_full.make_move(2, "r")}.to raise_error (ColumnIsFullError)
     end
   end
 
@@ -120,7 +112,7 @@ RSpec.describe Board do
     end
   end
 
-  describe "#board.connect4_left_diagonal" do
+  describe "#connect4_left_diagonal" do
     it "returns 'r' since there is a connect 4 diagonally to the left" do
       board.make_move(7,"r")
       board.make_move(6,"y")
@@ -158,6 +150,23 @@ RSpec.describe Board do
       board.make_move(5,"r")
       board.make_move(6,"r")
       expect { board.show }.to output("The Board \n| o | o | o | o | o | o | o |\n| o | o | o | o | o | o | o |\n| o | o | o | o | o | o | o |\n| o | o | o | o | o | o | o |\n| o | o | o | o | o | o | o |\n| r | r | o | o | r | r | o |\n-----------------------------\n| 1 | 2 | 3 | 4 | 5 | 6 | 7 |\n\n").to_stdout
+    end
+  end
+
+  describe "#check_if_column_full?" do
+    it "returns true because the column is full" do
+      board.make_move(1,"r")
+      board.make_move(1,"r")
+      board.make_move(1,"r")
+      board.make_move(1,"r")
+      board.make_move(1,"r")
+      board.make_move(1,"r")      
+      expect(board.check_if_column_full?(1)).to eq (true)
+    end
+
+    it "returns false because the column is not full" do
+      board.make_move(1,"r")
+      expect(board.check_if_column_full?(1)).to eq (false)
     end
   end
 end
